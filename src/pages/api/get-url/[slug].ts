@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../db/client';
+import { prisma } from '../../../db/client';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const slug = req.query['slug'];
 
   if (!slug || typeof slug !== 'string') {
     res.statusCode = 404;
-    res.send(JSON.stringify({ message: 'plz use with a slug' }));
+    res.json({ message: 'plz use with a slug' });
 
     return;
   }
@@ -21,9 +21,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!data) {
     res.statusCode = 404;
-    res.send(JSON.stringify({ message: 'slug not found' }));
+    res.json({ message: 'slug not found' });
     return;
   }
 
-  return res.redirect(data.url);
+  return res.json(data);
 };
